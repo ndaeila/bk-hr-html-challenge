@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+nav {
+    background-color: #AACCAA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav > * {
+    text-align: left;
+}
+
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button > button {
+    color: white;
+    background-color: brown;
+    border-radius: 10px;
+    font-size: xx-large;
+}
+
+#video_player > iframe {
+    height: 400px;
+    width: 800px;
+}
+
+footer {
+    height: 8vh;
+    background-color: #AAFFAA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
