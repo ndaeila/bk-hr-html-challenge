@@ -7,11 +7,24 @@
     // Initialize timer that uses video length to figure out when video ends, then triggers next after that period.
     nextVideo();
 
-    document.getElementById("next_button").addEventListener("submit", async function(event) {
+    document.getElementById("next_button_987239d8sxcvbs4hn98237b4").addEventListener("click", async function(event) {
       event.preventDefault();
-      await console.log("U U[p?");
-    //   await getSearch(document.getElementById('search').value);
+      await nextVideo();
     });
+
+    document.getElementById('youtube_video').addEventListener('load', function() {
+      // Hide the loader when iframe content is loaded
+      hide('#load_animation');
+    });
+  }
+
+  function changeIframeSrc(newSrc) {
+    // Show the loader
+    show('#load_animation');
+
+    // Change the iframe's src. This will start loading new content and 
+    // the load event listener will hide the loader once content is fully loaded.
+    document.getElementById('youtube_video').src = newSrc;
   }
 
   async function nextVideo() {
@@ -20,56 +33,19 @@
       .then(statusCheck)
       .then(resp => resp.text())
       .then(function(resp) {
-        console.log(resp);
-
-
-
-        
+        let obj = JSON.parse(resp);
+        let link = "https://www.youtube.com/embed/" + resp["video_id"] + "?rel=0&modestbranding=1&autoplay=1&controls=0&showinfo=0&mute=1";
+        changeIframeSrc(link);
+        document.querySelector('#lesson_from_video').textContent = obj["transcript_desc"];
       });
   }
 
-  async function getSearch(search) {
-    let params = new FormData;
-    params.append("search", search);
+  function show(selector) {
+    document.querySelector(selector).style.display = 'block';
+  }
 
-    fetch("/searchchallenge", {method: "POST", body: params})
-      .then(statusCheck)
-      .then(resp => resp.text())
-      .then(function(resp) {
-        console.log(resp);
-
-        document.getElementById('output_field').appendChild(function(resp) {
-          let table = document.createElement("table");
-          let header = document.createElement("tr");
-
-          let header0 = document.createElement("td");
-          header0.textContent = "Search";
-          let header1 = document.createElement("td");
-          header1.textContent = "Answer";
-          header.appendChild(header0);
-          header.appendChild(header1);
-
-          table.appendChild(header);
-
-          searchList = JSON.parse(resp);
-          console.log(typeof(searchList))
-          for (const thing in searchList) {
-            let row = document.createElement("tr");
-
-            let search = document.createElement("td");
-            search.textContent = thing.search;
-            let answer = document.createElement("td");
-            answer.textContent = thing.answer;
-            row.appendChild(search);
-            row.appendChild(answer);
-
-            table.appendChild(row);
-          }
-          
-          return table;
-        });
-      })
-      .catch(resp => document.getElementById("output_field").textContent = resp);
+  function hide(selector) {
+    document.querySelector(selector).style.display = 'none';
   }
 
   async function statusCheck(resp) {

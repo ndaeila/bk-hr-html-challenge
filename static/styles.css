@@ -4,7 +4,7 @@ body {
 }
 
 nav {
-    background-color: #AACCAA;
+    background-color: #ffd87d;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +14,21 @@ nav > * {
     text-align: left;
 }
 
+nav > img {
+    width: 90px;
+    margin-right: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+#load_animation {
+    filter: blur(.5px);
+    animation: rotation 7s infinite linear;
+    width: 150px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
 
 main {
     width: 100%;
@@ -22,22 +37,48 @@ main {
     align-items: center;
 }
 
+main > section {
+    margin: 20px;
+}
+
 .button > button {
     color: white;
-    background-color: brown;
+    background-color: rgb(211, 130, 9);
     border-radius: 10px;
     font-size: xx-large;
 }
 
 #video_player > iframe {
+    display: none;
     height: 400px;
+    width: 840px;
+}
+
+#lessons_from_video {
+    display: none;
+}
+
+article {
+    background-color: #ffdcac;
     width: 800px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 footer {
     height: 8vh;
-    background-color: #AAFFAA;
+    background-color: #ffdcae;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
