@@ -21,10 +21,12 @@ def next():
     if len(list_of_youtube_videos) <= 0:
         video_id = "dQw4w9WgXcQ"
         transcript = youtube_api.get_transcript("https://www.youtube.com/watch?v=" + video_id)
+        duration = youtube_api.get_video_duration("https://www.youtube.com/watch?v=" + video_id)
 
         list_of_youtube_videos.append({
             "video_id": video_id,
-            "transcript": transcript
+            "transcript": transcript,
+            "duration": duration
         })
 
     # Get random item from list
@@ -34,16 +36,9 @@ def next():
     return {
         "video_id": next["video_id"],
         "transcript_desc": openai_api.transcript_to_hr_desc(next["transcript"]),
+        "duration": duration
     }
 
-
-
-# If a user finds the hidden search bar and reveals it, they can change the video type that plays.
-# Still unrelated to the challenge. Add later.
-@app.route("/changesearch?={query}")
-def changesearch(query: str):
-    search_query = query # contents of website
-    list_of_youtube_links = []
 
 
 if __name__ == '__main__':

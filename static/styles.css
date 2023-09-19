@@ -17,17 +17,15 @@ nav > * {
 nav > img {
     width: 90px;
     margin-right: 20px;
-    border: 1px solid;
+    border: 2px solid;
     border-radius: 10px;
 }
 
 #load_animation {
-    filter: blur(.5px);
-    animation: rotation 7s infinite linear;
+    filter: blur(.3px);
+    animation: rotation 5s infinite linear;
     width: 150px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    margin: 100px;
 }
 
 main {
@@ -39,6 +37,15 @@ main {
 
 main > section {
     margin: 20px;
+    justify-content: center;
+}
+
+section > h3, section > p {
+    text-align: center;
+}
+
+.button {
+    min-width: 50px;
 }
 
 .button > button {
