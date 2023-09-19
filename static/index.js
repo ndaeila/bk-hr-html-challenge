@@ -45,7 +45,6 @@
   }
 
   function start_next_timer(seconds) {
-    console.log(seconds);
     setTimeout(show('#next_button_987239d8sxcvbs4hn98237b4'), seconds * 1000);
   }
 

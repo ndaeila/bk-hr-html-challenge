@@ -36,11 +36,11 @@ main {
 }
 
 main > section {
+    display: flex;
+    flex-direction: column;
     margin: 20px;
     justify-content: center;
-}
-
-section > h3, section > p {
+    align-items: center;
     text-align: center;
 }
 
@@ -70,6 +70,7 @@ article {
     width: 800px;
     padding: 20px;
     margin-bottom: 20px;
+    text-align: left;
 }
 
 footer {

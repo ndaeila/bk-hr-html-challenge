@@ -36,7 +36,7 @@ def next():
     return {
         "video_id": next["video_id"],
         "transcript_desc": openai_api.transcript_to_hr_desc(next["transcript"]),
-        "duration": duration
+        "duration": next["duration"]
     }
 
 
