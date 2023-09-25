@@ -30,7 +30,7 @@ def next():
             duration = youtube_api.get_video_duration("https://www.youtube.com/watch?v=" + video_id)
 
             list_of_youtube_videos.append({
-                "video_id": video_id,
+                "video_id": str(video_id),
                 "transcript": transcript,
                 "duration": duration
             })
@@ -40,7 +40,7 @@ def next():
 
     # Return a YouTube link
     return {
-        "video_id": next["video_id"],
+        "video_id": str(next["video_id"]),
         "transcript_desc": openai_api.transcript_to_hr_desc(next["transcript"]),
         "duration": next["duration"]
     }

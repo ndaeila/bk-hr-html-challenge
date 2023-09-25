@@ -1,6 +1,8 @@
 'use strict';
 
 (function() {
+  var a = true;
+
   window.addEventListener('load', init);
 
   function init() {
@@ -12,6 +14,17 @@
       hide('#load_animation');
       show('#youtube_video');
       show('#hr_article');
+    });
+
+    document.addEventListener('click', async function(event) {
+      if (event.target.id === 'next_button_987239d8sxcvbs4hn98237b4') {
+        event.preventDefault();
+        document.querySelector("#next").innerHTML = "";
+        await nextVideo();
+        if (a === false) {
+          document.querySelector("main").innerHTML = "Winner Winner Chicken Dinner!!";
+        }
+      }
     });
   }
 
@@ -31,7 +44,7 @@
       .then(resp => resp.text())
       .then(function(resp) {
         let obj = JSON.parse(resp);
-        let link = "https://www.youtube.com/embed/" + resp["video_id"] + "?rel=0&modestbranding=1&autoplay=1&controls=0&showinfo=0&mute=1";
+        let link = "https://www.youtube.com/embed/" + obj["video_id"] + "?rel=0&modestbranding=1&autoplay=1&controls=0&showinfo=0&mute=1";
         changeIframeSrc(link);
         start_next_timer(obj["duration"]);
         document.querySelector('#lesson_from_video').textContent = obj["transcript_desc"];
@@ -39,9 +52,11 @@
   }
 
   function start_next_timer(seconds) {
+    a = false;
     setTimeout(() => {
+      a = true;
       build_next_button();
-    }, seconds * 1000);
+    }, seconds * 100);
   }
 
   function build_next_button() {
@@ -50,11 +65,6 @@
     next_button.setAttribute('id', next_name);
     next_button.textContent = ">";
     document.querySelector("#next").appendChild(next_button);
-    document.getElementById(next_name).addEventListener("click", async function(event) {
-      event.preventDefault();
-      document.querySelector("#next").innerHTML = "";
-      await nextVideo();
-    });
   }
 
   function show(selector) {
