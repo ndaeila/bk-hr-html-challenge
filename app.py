@@ -19,15 +19,21 @@ def main():
 def next():
     # Get a list of links. If list of links already has contents, use that list of links
     if len(list_of_youtube_videos) <= 0:
-        video_id = "dQw4w9WgXcQ"
-        transcript = youtube_api.get_transcript("https://www.youtube.com/watch?v=" + video_id)
-        duration = youtube_api.get_video_duration("https://www.youtube.com/watch?v=" + video_id)
+        video_ids = [
+                     "A2HFusWQIeE",
+                     "uiufOswSxGI",
+                     "3lRjzlnR1i0",
+                     "3-mv33vrqBs",
+                     ]
+        for video_id in video_ids:
+            transcript = youtube_api.get_transcript("https://www.youtube.com/watch?v=" + video_id)
+            duration = youtube_api.get_video_duration("https://www.youtube.com/watch?v=" + video_id)
 
-        list_of_youtube_videos.append({
-            "video_id": video_id,
-            "transcript": transcript,
-            "duration": duration
-        })
+            list_of_youtube_videos.append({
+                "video_id": video_id,
+                "transcript": transcript,
+                "duration": duration
+            })
 
     # Get random item from list
     next = random.choice(list_of_youtube_videos)
@@ -42,4 +48,4 @@ def next():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -7,11 +7,6 @@
     // Initialize timer that uses video length to figure out when video ends, then triggers next after that period.
     nextVideo();
 
-    document.getElementById("next_button_987239d8sxcvbs4hn98237b4").addEventListener("click", async function(event) {
-      event.preventDefault();
-      await nextVideo();
-    });
-
     document.getElementById('youtube_video').addEventListener('load', function() {
       // Hide the loader when iframe content is loaded
       hide('#load_animation');
@@ -30,7 +25,6 @@
     hide('#youtube_video');
     show('#load_animation');
     hide('#hr_article');
-    hide('#next_button_987239d8sxcvbs4hn98237b4');
 
     fetch("/next", {method: "GET"})
       .then(statusCheck)
@@ -45,7 +39,22 @@
   }
 
   function start_next_timer(seconds) {
-    setTimeout(show('#next_button_987239d8sxcvbs4hn98237b4'), seconds * 1000);
+    setTimeout(() => {
+      build_next_button();
+    }, seconds * 1000);
+  }
+
+  function build_next_button() {
+    let next_name = "next_button_987239d8sxcvbs4hn98237b4";
+    let next_button = document.createElement("button");
+    next_button.setAttribute('id', next_name);
+    next_button.textContent = ">";
+    document.querySelector("#next").appendChild(next_button);
+    document.getElementById(next_name).addEventListener("click", async function(event) {
+      event.preventDefault();
+      document.querySelector("#next").innerHTML = "";
+      await nextVideo();
+    });
   }
 
   function show(selector) {
