@@ -1,3 +1,4 @@
+import pickle
 from flask import Flask, render_template
 import random
 from toolbox import youtube_api, openai_api
@@ -6,18 +7,21 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 list_of_youtube_videos = []
 search_query = "HR Training"
+cache_filename = "cache.pkl"
 
+# Load the cache from disk if it exists
+try:
+    with open(cache_filename, "rb") as file:
+        cache = pickle.load(file)
+except FileNotFoundError:
+    cache = {}
 
-# Send YouTube link to user that requests YouTube link
 @app.route("/")
 def main():
     return render_template('index.html')
 
-
-# When Video Changes
 @app.route("/next")
 def next():
-    # Get a list of links. If list of links already has contents, use that list of links
     if len(list_of_youtube_videos) <= 0:
         video_ids = [
                      "A2HFusWQIeE",
@@ -28,7 +32,7 @@ def next():
         for video_id in video_ids:
             transcript = youtube_api.get_transcript("https://www.youtube.com/watch?v=" + video_id)
             duration = youtube_api.get_video_duration("https://www.youtube.com/watch?v=" + video_id)
-
+            
             list_of_youtube_videos.append({
                 "video_id": str(video_id),
                 "transcript": transcript,
@@ -36,16 +40,24 @@ def next():
             })
 
     # Get random item from list
-    next = random.choice(list_of_youtube_videos)
+    next_video = random.choice(list_of_youtube_videos)
+    
+    # Check if transcript_desc for the video_id is already cached
+    if next_video["video_id"] in cache:
+        transcript_desc = cache[next_video["video_id"]]
+    else:
+        transcript_desc = openai_api.transcript_to_hr_desc(next_video["transcript"])
+        cache[next_video["video_id"]] = transcript_desc
 
-    # Return a YouTube link
+        # Save the updated cache to disk
+        with open(cache_filename, "wb") as file:
+            pickle.dump(cache, file)
+
     return {
-        "video_id": str(next["video_id"]),
-        "transcript_desc": openai_api.transcript_to_hr_desc(next["transcript"]),
-        "duration": next["duration"]
+        "video_id": str(next_video["video_id"]),
+        "transcript_desc": transcript_desc,
+        "duration": next_video["duration"]
     }
-
-
 
 if __name__ == '__main__':
     app.run(debug=False)
