@@ -45,7 +45,7 @@ main > section {
 }
 
 .button {
-    min-width: 50px;
+    min-width: 80px;
 }
 
 .button > button {

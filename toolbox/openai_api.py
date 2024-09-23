@@ -1,10 +1,11 @@
-import openai
+from openai import OpenAI
+
 import json
 
 with open('config/config.json', 'r') as file:
     data = json.load(file)
 
-openai.api_key = data["openai_api_key"]
+client = OpenAI(api_key=data["openai_api_key"])
 
 prompt = (
     "Based on the transcript of this video, " +
@@ -23,10 +24,8 @@ prompt = (
 )
 
 def transcript_to_hr_desc(transcript):
-    bot = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt + str(transcript)}]
-    )
+    bot = client.chat.completions.create(model="gpt-4",
+    messages=[{"role": "user", "content": prompt + str(transcript)}])
 
-    return bot["choices"][0]["message"]["content"]
+    return bot.choices[0].message.content
 
